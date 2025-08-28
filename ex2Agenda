@@ -1,1 +1,179 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <conio2.h>
 
+#define TF 100
+
+struct TpData
+{
+	int dia,mes,ano;	
+};
+
+struct TpEndereco
+{
+	char rua[30],complemento[30],bairro[30],cidade[25],estado[25],pais[25];
+	int numero,cep;
+};
+struct TpTelefone
+{
+	int ddd,numero;
+};
+
+struct TpPessoa
+{
+	char nome[25],email[40],obs[30];
+	TpEndereco endereco;
+	TpTelefone telefone;
+	TpData data;
+	
+		
+};
+
+void InserePessoa(struct TpPessoa TabAgenda[TF],int &TLA){
+	char op;
+	clrscr();
+	if(TLA>=TF){
+		printf("Agenda cheia!");
+		return;
+	}
+	do{
+		
+		clrscr();
+		fflush(stdin);
+		textcolor(15);
+		printf("\nDigite o nome:");
+		gets(TabAgenda[TLA].nome);
+		fflush(stdin);
+		printf("\nDigite email:");
+		gets(TabAgenda[TLA].email);
+		fflush(stdin);
+		printf("\nEndereco");
+		printf("\nRua:");
+		gets(TabAgenda[TLA].endereco.rua);
+		fflush(stdin);
+		printf("\nNumero:");
+		scanf("%d",&TabAgenda[TLA].endereco.numero);
+		printf("\nComplemento:");
+		gets(TabAgenda[TLA].endereco.complemento);
+		fflush(stdin);
+		printf("\nBairro:");
+		gets(TabAgenda[TLA].endereco.bairro);
+		fflush(stdin);
+		printf("\nCEP:");
+		scanf("%d",&TabAgenda[TLA].endereco.cep);
+		printf("\nCidade:");
+		gets(TabAgenda[TLA].endereco.cidade);
+		fflush(stdin);
+		printf("\nEstado:");
+		gets(TabAgenda[TLA].endereco.estado);
+		fflush(stdin);
+		printf("\nPais:");
+		gets(TabAgenda[TLA].endereco.pais);
+		fflush(stdin);
+		printf("\nTelefone");
+		printf("\nDDD:");
+		scanf("%d",&TabAgenda[TLA].telefone.ddd);
+		printf("\nNumero:");
+		scanf("%d",&TabAgenda[TLA].telefone.numero);
+		printf("\nData de nascimento(dd mm aaaa):");
+		scanf("%d %d %d",&TabAgenda[TLA].data.dia,&TabAgenda[TLA].data.mes,&TabAgenda[TLA].data.ano);
+		printf("\nObservacao:");
+		gets(TabAgenda[TLA].obs);
+		fflush(stdin);
+		TLA++;
+		printf("\n--------------------------\n");
+		textcolor(10);
+		printf("Usuario inserido com sucesso!");
+		getch();
+		clrscr();
+		textcolor(15);
+		printf("\nDeseja inserir outro usuário?\n[S]-sim\n[N]-nao\n");
+		
+		op=toupper(getche());
+		while(op!='S' && op!='N'){
+			
+			op=toupper(getche());
+			
+				
+		}
+		if(op=='S')
+				textcolor(14);
+				printf("\nIniciando o cadastro de um novo usuário...\n");
+				getche();
+	}while(op!='N');{
+		return;
+	};
+	
+};
+void BuscaNome(struct TpPessoa TabAgenda[TF],int &TLA){
+	clrscr();
+	char AuxNome[25];
+	printf("Pesquisar:\n");
+	gets(AuxNome);
+	for(int i = 0 ; i<TLA;i++){
+		int flag = 0;
+		for(int j = 0; TabAgenda[i].nome[j]!=37;j++){
+			if(TabAgenda[i].nome[j]!=AuxNome[j])
+				flag++;	
+		}
+		if(flag==0){
+			printf("-----------------------------");
+			printf("%s",TabAgenda[i].nome);
+			printf("%s",TabAgenda[i].email);
+		}
+		
+	}for(int i = 0; i < TLA; i++){
+        int j = 0;
+        int flag = 0;
+        
+       
+        while(TabAgenda[i].nome[j] != ' ' && AuxNome[j] != '\0'){
+            if(tolower(TabAgenda[i].nome[j]) != tolower(AuxNome[j])) {
+                flag = 1;  
+                
+            }
+            j++;
+        }
+        if(flag == 0){
+            printf("-----------------------------\n");
+            printf("Nome: %s\n", TabAgenda[i].nome);
+            printf("Email: %s\n", TabAgenda[i].email);
+        }
+    }
+	getch();
+	return;
+}
+
+int main(void){
+	char aux;
+	int TLA=0;
+	TpPessoa TabAgenda[TF];
+	do{
+		clrscr();
+		textcolor(14);
+		printf("\nAgenda\n");
+		printf("[A] inserir pessoa na agenda\n");
+		printf("[B] buscar pessoa pelo primeiro nome\n");
+		aux = toupper(getche());
+		switch(aux){
+			case 'A':
+				InserePessoa(TabAgenda, TLA);
+				break;
+			case 'B':
+				BuscaNome(TabAgenda, TLA);
+				break;
+			case 'R':
+				printf("Valor:");
+				printf("%d",TLA);
+				getch();
+				
+		}
+		
+	}while(aux!=27);{
+		return 0;
+	};
+	
+	
+	
+}
